@@ -28,8 +28,12 @@ class AutomatedTestsController < ApplicationController
   end
 
 
+<<<<<<< HEAD
+  # Update function called when files are added to the assigment
+=======
   #Update function called when files are added to the assigment
 
+>>>>>>> markus/master
   def update
       @assignment = Assignment.find(params[:assignment_id])
 

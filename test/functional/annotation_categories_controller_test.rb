@@ -24,7 +24,7 @@ class AnnotationCategoriesControllerTest < AuthenticatedControllerTest
 
     context "on :get_annotations" do
       setup do
-        get :get_annotations, :assignment_id => 1
+        get :get_annotations, :assignment_id => 1,:id => 1
       end
       should respond_with :redirect
     end
@@ -43,23 +43,9 @@ class AnnotationCategoriesControllerTest < AuthenticatedControllerTest
       should respond_with :redirect
     end
 
-    context "on :update_annotation" do
-      setup do
-        get :update_annotation, :assignment_id => 1
-      end
-      should respond_with :redirect
-    end
-
     context "on :add_annotation_text" do
       setup do
-        get :add_annotation_text, :assignment_id => 1
-      end
-      should respond_with :redirect
-    end
-
-    context "on :delete_annotation_text" do
-      setup do
-        get :delete_annotation_text, :assignment_id => 1
+        get :add_annotation_text, :assignment_id => 1, :id => 1
       end
       should respond_with :redirect
     end
@@ -101,7 +87,7 @@ class AnnotationCategoriesControllerTest < AuthenticatedControllerTest
 
     context "on :get_annotations" do
       setup do
-        post :get_annotations, :assignment_id => 1
+        post :get_annotations, :assignment_id => 1, :id => 1
       end
       should respond_with :redirect
     end
@@ -122,21 +108,21 @@ class AnnotationCategoriesControllerTest < AuthenticatedControllerTest
 
     context "on :update_annotation" do
       setup do
-        post :update_annotation, :assignment_id => 1
+        post :update_annotation, :assignment_id => 1, :id => 1
       end
       should respond_with :redirect
     end
 
     context "on :add_annotation_text" do
       setup do
-        post :add_annotation_text, :assignment_id => 1
+        post :add_annotation_text, :assignment_id => 1, :id => 1
       end
       should respond_with :redirect
     end
 
     context "on :delete_annotation_text" do
       setup do
-        post :delete_annotation_text, :assignment_id => 1
+        post :delete_annotation_text, :assignment_id => 1, :id => 1
       end
       should respond_with :redirect
     end
@@ -163,7 +149,29 @@ class AnnotationCategoriesControllerTest < AuthenticatedControllerTest
     end
 
   end # end unauthenticated/unauthorized user POST
+  
+  context "An unauthenticated and unauthorized user doing a PUT" do
+  
+    context "on :update_annotation" do
+      setup do
+        put :update_annotation, :assignment_id => 1, :id => 1
+      end
+      should respond_with :redirect
+    end
+    
+  end # end unauthenticated/unauthorized user PUT
+  
+  context "An unauthenticated and unauthorized user doing a DELETE" do
+  
+    context "on :delete_annotation_text" do
+      setup do
+        delete :delete_annotation_text, :assignment_id => 1, :id => 1
+      end
+      should respond_with :redirect
+    end
 
+  end # end unauthenticated/unauthorized user DELETE
+  
   context "An authorized and authenticated user doing a GET" do
     fixtures  :users, :assignments, :annotation_categories, :annotation_texts
 
@@ -335,12 +343,10 @@ class AnnotationCategoriesControllerTest < AuthenticatedControllerTest
       context "without errors" do
         setup do
           AnnotationCategory.any_instance.stubs(:save).returns(true)
-          post_as @admin, :add_annotation_category, :assignment_id => @assignment.id
+          get_as @admin, :add_annotation_category, :assignment_id => @assignment.id
         end
         should respond_with :success
         should assign_to :assignment
-        should assign_to :annotation_category
-        should render_template 'insert_new_annotation_category'
       end
 
       context "with error on save" do
@@ -360,12 +366,10 @@ class AnnotationCategoriesControllerTest < AuthenticatedControllerTest
       context "without errors" do
         setup do
           AnnotationText.any_instance.stubs(:save).returns(true)
-          post_as @admin, :add_annotation_text, :assignment_id => 1, :id => @category.id
+          get_as @admin, :add_annotation_text, :assignment_id => 1, :id => @category.id
         end
         should respond_with :success
-        should render_template 'insert_new_annotation_text'
         should assign_to :annotation_category
-        should assign_to :annotation_text
       end
 
       context "with errors on save" do

@@ -1,14 +1,8 @@
 <div class="section">
+  <%= form_for @user, :as => :user do |f| %>
 
-  <% if flash[:error] %>
-    <div class="error">
-      <%= flash[:error] %>
-    </div>
-  <% end%>
-
-
-  <%= form_for @user,
-	       :as => :user do |f| %>
+    <%= render :partial => "shared/error_explanation",
+        :locals => { :model => @user, :flash_message => flash[:error] } %>
 
     <%= raw(f.label(:user_name, I18n.t("user.user_name"))) %>
     <%= raw(f.text_field :user_name) %><br />
@@ -32,7 +26,9 @@
 
     <%= f.hidden_field :id %>
     <%= f.submit t(:submit), :name => 'submit', :class => 'button indent_button' %>
-    <%= link_to t(:cancel), {:controller => 'students'}, :class => "button" %>
+    <%= link_to t(:cancel), 
+        {:controller => 'students'}, 
+        :class => "button button_link" %>
 
     <% end %>
 

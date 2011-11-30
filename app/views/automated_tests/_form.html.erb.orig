@@ -9,7 +9,11 @@
 
 <%= form_for @assignment,
 	     :as => :assignment,
+<<<<<<< HEAD
+       :url => {:action => :manage},
+=======
        :url => manage_assignment_automated_tests_path(),
+>>>>>>> markus/master
 	     :html => {:multipart => true} do |f| %>
 <%= f.error_messages%>
 
